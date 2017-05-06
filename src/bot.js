@@ -55,6 +55,9 @@ let retweet = function () {
         // grab ID of tweet to retweet
         // run sentiment check ==========
         var retweetId = data.statuses[0].id_str
+        
+        var url = "https://twitter.com/realDonaldTrump/status/" + retweetId
+        
         var retweetText = data.statuses[0].text
 
       //   // setup http call
@@ -79,7 +82,7 @@ let retweet = function () {
       // }
             // Tell TWITTER to retweet
       Twitter.post('statuses/update', {
-        status: retweetText
+        status: "This guy: "  + url
       }, function (err, response) {
         if (response) {
           console.log('RETWEETED!', ' Query String:', paramQS)
