@@ -78,10 +78,8 @@ let retweet = function () {
       //   return
       // }
             // Tell TWITTER to retweet
-            
-      var status = "From the Donald: " + retweetText
       Twitter.post('statuses/update', {
-        status: status
+        status: retweetText
       }, function (err, response) {
         if (response) {
           console.log('RETWEETED!', ' Query String:', paramQS)
