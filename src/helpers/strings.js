@@ -1,6 +1,6 @@
 module.exports = {
   queryString: [
-    ''
+    'from:realDonaldTrump'
   ],
   queryStringSubQuery: [
     ''

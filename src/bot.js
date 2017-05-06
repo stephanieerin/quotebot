@@ -51,32 +51,35 @@ let retweet = function () {
 
   Twitter.get('search/tweets', params, function (err, data) {
     if (!err) { // if there no errors
-      try {
+      //try {
         // grab ID of tweet to retweet
         // run sentiment check ==========
         var retweetId = data.statuses[0].id_str
         var retweetText = data.statuses[0].text
 
-        // setup http call
-        var httpCall = sentiment.init()
+      //   // setup http call
+      //   var httpCall = sentiment.init()
+      //   console.log(httpCall)
 
-        httpCall.send('txt=' + retweetText).end(function (result) {
-          var sentim = result.body.result.sentiment
-          var confidence = parseFloat(result.body.result.confidence)
-          console.log(confidence, sentim)
-          // if sentiment is Negative and the confidence is above 75%
-          if (sentim === 'Negative' && confidence >= 75) {
-            console.log('RETWEET NEG NEG NEG', sentim, retweetText)
-            return
-          }
-        })
-      } catch (e) {
-        console.log('retweetId DERP!', e.message, 'Query String:', paramQS)
-        return
-      }
+      //   httpCall.send('txt=' + retweetText).end(function (result) {
+      //     console.log(result.body)
+      //     console.log(result.body.result)
+      //     var sentim = result.body.result.sentiment
+      //     var confidence = parseFloat(result.body.result.confidence)
+      //     console.log(confidence, sentim)
+      //     // if sentiment is Negative and the confidence is above 75%
+      //     if (sentim === 'Negative' && confidence >= 75) {
+      //       console.log('RETWEET NEG NEG NEG', sentim, retweetText)
+      //       return
+      //     }
+      //   })
+      // } catch (e) {
+      //   console.log('retweetId DERP!', e.message, 'Query String:', paramQS)
+      //   return
+      // }
             // Tell TWITTER to retweet
-      Twitter.post('statuses/retweet/:id', {
-        id: retweetId
+      Twitter.post('statuses/update', {
+        status: retweetText
       }, function (err, response) {
         if (response) {
           console.log('RETWEETED!', ' Query String:', paramQS)
@@ -152,7 +155,7 @@ var favoriteTweet = function () {
 }
 
 // favorite on bot start
-favoriteTweet()
+//favoriteTweet()
     // favorite in every x minutes
 setInterval(favoriteTweet, 1000 * 60 * favoriteFrequency)
 
