@@ -9,9 +9,10 @@ module.exports = {
     ''
   ],
   retweetOptions: [
-    'This asshole...',
-    'From the desk of our "President"...',
-    'For your information (you might need to sit down)...'
+    'Popular vote loser says: ',
+    'So-called president says: ',
+    'Six time bankruptcy filer says: ',
+    'Full-time golfer, part-time president says: '
   ],
   resultType: [
     'mixed',

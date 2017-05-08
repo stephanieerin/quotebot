@@ -7,7 +7,7 @@
  * Add your account user username
  * Add your sentiment API key
  */
-//require('dotenv').config()
+require('dotenv').config()
 
 module.exports = {
   twitter: {
