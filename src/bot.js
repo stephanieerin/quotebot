@@ -81,7 +81,7 @@ let retweet = function () {
       // }
       var status = tweetStart() + url
       var dupe = null
-      console.log(status)
+      console.log(encodeURI('from:' + username))
             // Tell TWITTER to retweet
       Twitter.get('search/tweets', {
         q: encodeURI('from:' + username)
