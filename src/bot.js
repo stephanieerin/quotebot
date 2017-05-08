@@ -82,7 +82,7 @@ let retweet = function () {
       // }
             // Tell TWITTER to retweet
       Twitter.post('statuses/update', {
-        status: "This guy: "  + url
+        status: "So-called President says... "  + url
       }, function (err, response) {
         if (response) {
           console.log('RETWEETED!', ' Query String:', paramQS)
