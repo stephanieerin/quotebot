@@ -84,11 +84,10 @@ let retweet = function () {
       console.log(status)
             // Tell TWITTER to retweet
       Twitter.get('search/tweets', {
-        q: encodeURI('from:StephErin713')
+        q: encodeURI('from:' + username)
       }, function (err, response) {
         if (response) {
           for (var i = response.statuses.length - 1; i >= 0; i--) {
-            console.log(response)
             console.log("quoted_status_id_str: " + response.statuses[i].quoted_status_id_str)
             console.log("retweetId: " + retweetId)
             
