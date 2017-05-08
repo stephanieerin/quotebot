@@ -89,8 +89,8 @@ let retweet = function () {
         if (response) {
           for (var i = response.statuses.length - 1; i >= 0; i--) {
             
-            // console.log("quoted_status_id_str: " + response.statuses[i].quoted_status_id_str)
-            // console.log("retweetId: " + retweetId)
+            console.log("quoted_status_id_str: " + response.statuses[i].quoted_status_id_str)
+            console.log("retweetId: " + retweetId)
             
             if (response.statuses[i].quoted_status_id_str &&
                 parseInt(response.statuses[i].quoted_status_id_str) === parseInt(retweetId)) {
@@ -98,7 +98,7 @@ let retweet = function () {
             } 
           }
           
-          // console.log(dupe)
+          console.log(dupe)
           
           if (!dupe){
             Twitter.post('statuses/update', {
