@@ -80,19 +80,49 @@ let retweet = function () {
       //   return
       // }
       var status = tweetStart() + url
+      var dupe = null
       console.log(status)
             // Tell TWITTER to retweet
-      Twitter.post('statuses/update', {
-        status: status
+      Twitter.get('search/tweets', {
+        q: encodeURI('from:StephErin713')
       }, function (err, response) {
         if (response) {
-          console.log('RETWEETED!', ' Query String:', paramQS)
+          for (var i = response.statuses.length - 1; i >= 0; i--) {
+            
+            // console.log("quoted_status_id_str: " + response.statuses[i].quoted_status_id_str)
+            // console.log("retweetId: " + retweetId)
+            
+            if (response.statuses[i].quoted_status_id_str &&
+                parseInt(response.statuses[i].quoted_status_id_str) === parseInt(retweetId)) {
+                  dupe = true
+            } 
+          }
+          
+          // console.log(dupe)
+          
+          if (!dupe){
+            Twitter.post('statuses/update', {
+              status: status
+            }, function (err, response) {
+              if (response) {
+                console.log('RETWEETED!', ' ID:', retweetId)
+              }
+                      // if there was an error while tweeting
+              if (err) {
+                console.log('DUPLICATE TWEET!', err)
+              }
+            })
+          }
+          
         }
-                // if there was an error while tweeting
+        
         if (err) {
-          console.log('DUPLICATE TWEET!')
+          console.log("Trouble Searching!!! ", err)
         }
-      })
+      })      
+      
+      
+      
     } else { console.log('Something went wrong while SEARCHING...') }
   })
 }
