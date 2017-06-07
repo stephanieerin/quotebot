@@ -23,7 +23,6 @@ let qs = ura(strings.queryString)
 let qsSq = ura(strings.queryStringSubQuery)
 let rt = ura(strings.resultType)
 let rs = ura(strings.responseString)
-let tweetStart = ura(strings.retweetOptions)
 
 // https://dev.twitter.com/rest/reference/get/search/tweets
 // A UTF-8, URL-encoded search query of 500 characters maximum, including operators.
@@ -48,81 +47,27 @@ let retweet = function () {
     lang: 'en'
   }
 
-  Twitter.get('search/tweets', params, function (err, data) {
+Twitter.get('search/tweets', params, function (err, data) {
     if (!err) { // if there no errors
-      //try {
-        // grab ID of tweet to retweet
-        // run sentiment check ==========
-        var retweetId = data.statuses[0].id_str
-        
-        var url = "https://twitter.com/realDonaldTrump/status/" + retweetId
-        
-        var retweetText = data.statuses[0].text
+  
+      // grab ID of tweet to retweet
+      var retweetId = data.statuses[0].id_str
+      
+      var url = "https://twitter.com/realDonaldTrump/status/" + retweetId
 
-      //   // setup http call
-      //   var httpCall = sentiment.init()
-      //   console.log(httpCall)
-
-      //   httpCall.send('txt=' + retweetText).end(function (result) {
-      //     console.log(result.body)
-      //     console.log(result.body.result)
-      //     var sentim = result.body.result.sentiment
-      //     var confidence = parseFloat(result.body.result.confidence)
-      //     console.log(confidence, sentim)
-      //     // if sentiment is Negative and the confidence is above 75%
-      //     if (sentim === 'Negative' && confidence >= 75) {
-      //       console.log('RETWEET NEG NEG NEG', sentim, retweetText)
-      //       return
-      //     }
-      //   })
-      // } catch (e) {
-      //   console.log('retweetId DERP!', e.message, 'Query String:', paramQS)
-      //   return
-      // }
-      var status = tweetStart() + url
-      var dupe = null
-      console.log(encodeURI('from:' + username))
-            // Tell TWITTER to retweet
-      Twitter.get('search/tweets', {
-        q: encodeURI('from:' + username)
+      
+      // Tell TWITTER to retweet
+      Twitter.post('statuses/update', {
+        status: "The 45th President tweeted: " + url
       }, function (err, response) {
         if (response) {
-          for (var i = response.statuses.length - 1; i >= 0; i--) {
-            //console.log(response)
-            console.log("quoted_status_id_str: " + response.statuses[i].quoted_status_id_str)
-            console.log("retweetId: " + retweetId)
-            
-            if (response.statuses[i].quoted_status_id_str &&
-                parseInt(response.statuses[i].quoted_status_id_str) === parseInt(retweetId)) {
-                  dupe = true
-            } 
-          }
-          
-          console.log(dupe)
-          
-          if (!dupe){
-            Twitter.post('statuses/update', {
-              status: status
-            }, function (err, response) {
-              if (response) {
-                console.log('RETWEETED!', ' ID:', retweetId)
-              }
-                      // if there was an error while tweeting
-              if (err) {
-                console.log('DUPLICATE TWEET!', err)
-              }
-            })
-          }
-          
+          console.log('RETWEETED!', ' Query String:', paramQS)
         }
-        
+        // if there was an error while tweeting
         if (err) {
-          console.log("Trouble Searching!!! ", err)
+          console.log('RETWEET ERROR! Duplication maybe...:', err, 'Query String:', paramQS)
         }
-      })      
-      
-      
-      
+      })
     } else { console.log('Something went wrong while SEARCHING...') }
   })
 }
